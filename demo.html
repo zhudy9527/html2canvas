@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta name="referrer" content="no-referrer">
+	<script type="text/javascript" src="./js/html2canvas.js"></script>
+	<style>
+		body,html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		#box {
+			width: 500px;
+			height: 500px;
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg95.699pic.com%2Fphoto%2F40157%2F4484.gif_wh300.gif%21%2Fgifto%2Ftrue&refer=http%3A%2F%2Fimg95.699pic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1632037212&t=4a4336bbc75338a2f0747f1db990d457" crossorigin="anonymous" />
+	</div>
+	<button onclick="screenshots()">截图</button>
+	<script type="text/javascript">
+
+
+		async function screenshots(){
+
+			const dom = document.getElementById("box")
+
+			let url = await getPdfImg(dom)
+
+			down(url,'截图')
+
+		}
+
+
+		function getPdfImg(dom) {
+
+            return new Promise((resolve, reiect) => {
+
+                html2canvas(dom, {
+
+                    dpi: 300,
+
+                    useCORS: true,// 跨域设置--img 增加 crossorigin="anonymous" 属性
+
+                    onrendered: function(image) {
+
+                        let url = image.toDataURL('image/png', 1.0); // 生成base64图片
+
+                        resolve(url);
+
+                    },
+                });
+
+            });
+        }
+        function down(url, title) {
+
+            const a = document.createElement('a');
+
+            a.download = title
+
+            a.setAttribute('href', url); // 下载
+
+            a.click();
+
+            a.remove();
+            
+        };
+	</script>
+</body>
+</html>
